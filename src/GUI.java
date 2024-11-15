@@ -136,6 +136,7 @@ public class GUI extends JFrame {
                 cmd.cd("..");
                 break;
 
+                
             case "dir":
                 print(cmd.listar(cmd.getPath()));
                 
