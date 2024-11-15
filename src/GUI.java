@@ -19,23 +19,28 @@ import java.time.LocalTime;
 
 
 public class GUI extends JFrame {
+    
+
     private Funcionalidad cmd = new Funcionalidad("");
     private JTextArea window = new JTextArea();
     private JScrollPane panel = new JScrollPane(window);
     private int lastEditablePosition;
     
+
     public GUI() {
         crearFrame();
-        window.setText("Microsoft Windows [Version 10.0.22621.521]" 
-                + "\n(c) Microsoft Corporation. All rights reserved." + "\n\n" 
+        window.setText("Microsoft Windows [Version 10.0.22621.521]"
+                + "\n(c) Microsoft Corporation. All rights reserved." + "\n\n"
                 + cmd.getPath() + ">");
-        lastEditablePosition = window.getText().length(); 
+        lastEditablePosition = window.getText().length();
+        
     }
 
     private void crearFrame() {
         window.setBackground(Color.black);
         window.setForeground(Color.white);
         window.setFont(new java.awt.Font("Consolas", 0, 16));
+        
         window.setEditable(true);
         getContentPane().setLayout(new BorderLayout());
 
@@ -45,18 +50,18 @@ public class GUI extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     e.consume();
                     manejo();
-                } else if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE) &&
-                        window.getCaretPosition() <= lastEditablePosition) {
+                } else if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE)
+                        && window.getCaretPosition() <= lastEditablePosition) {
                     e.consume();
                 } else if (window.getCaretPosition() < lastEditablePosition) {
-                    window.setCaretPosition(lastEditablePosition); 
+                    window.setCaretPosition(lastEditablePosition);
                 }
             }
 
             @Override
             public void keyTyped(KeyEvent e) {
                 if (window.getCaretPosition() < lastEditablePosition) {
-                    e.consume(); 
+                    e.consume();
                 }
             }
         });
@@ -64,8 +69,10 @@ public class GUI extends JFrame {
         setTitle("Administrator: Command Prompt");
         setSize(700, 400);
         setLocationRelativeTo(null);
+        
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
         getContentPane().add(panel, BorderLayout.CENTER);
     }
 
@@ -74,12 +81,12 @@ public class GUI extends JFrame {
         int lastIndex = text.lastIndexOf("\n" + cmd.getPath() + ">");
         if (lastIndex != -1) {
             String command = text.substring(lastIndex + cmd.getPath().length() + 2).trim();
-            //Aqui llamaremos el case
+            comandos(command);
         }
     }
     
     
-    
+
     private void comandos(String command) {
         String[] parts = command.split(" ");
         switch (parts[0].toLowerCase()) {
@@ -87,24 +94,24 @@ public class GUI extends JFrame {
                 if (parts.length == 1) {
                     print("Ingresar el nombre del directorio");
                 } else {
-                    
                     print(cmd.mkdir(cmd.getPath() + "/" + parts[1]));
                 }
                 break;
 
             case "mfile":
+                
                 if (parts.length == 1) {
                     print("Ingresar el nombre del archivo");
-                    
                 } else {
-                    print(cmd.mfile(cmd.getPath() + "/" + parts[1]));
                     
+                    print(cmd.mfile(cmd.getPath() + "/" + parts[1]));
                 }
                 break;
 
             case "rm":
                 if (parts.length == 1) {
                     print("Ingrese el nombre de carpeta/archivo a eliminar");
+                    
                 } else {
                     File file = new File(cmd.getPath() + "/" + parts[1]);
                     print(cmd.eliminar(file));
@@ -113,10 +120,9 @@ public class GUI extends JFrame {
 
             case "cd":
                 if (parts.length == 1) {
-                    
                     print("Ingresar el nombre del directorio");
-                } else {
                     
+                } else {
                     cmd.cd(parts[1]);
                 }
                 break;
@@ -125,12 +131,11 @@ public class GUI extends JFrame {
                 cmd.cd("..");
                 break;
 
-                
             case "dir":
                 print(cmd.listar(cmd.getPath()));
+                
                 break;
 
-                
             case "date":
                 print(LocalDate.now().toString());
                 break;
@@ -138,34 +143,24 @@ public class GUI extends JFrame {
             case "time":
                 print(LocalTime.now().toString());
                 break;
-                
-            /*
-                PARA ESCRIBIR EN UN ARCHIVO HAY QUE UBICARSE EN LA CARPETA DEONDE ESTA 
-                EL ARCHIVO (EJEM: cd Prgra) Y LUEGO USAR EL COMANDO wr 
-                (EJEM: wr <archivo> <contenido>)
-            */
+
             case "wr":
                 if (parts.length < 3) {
                     print("Ingrese el nombre del archivo y contenido");
                 } else {
                     StringBuilder content = new StringBuilder();
+                    
                     for (int i = 2; i < parts.length; i++) {
                         content.append(parts[i]).append(" ");
                     }
                     print(cmd.escribir(content.toString().trim(), cmd.getPath() + "/" + parts[1]));
                 }
                 break;
-            
-            /*
-                PARA LEER UN ARCHIVO HAY QUE UBICARSE EN LA CARPETA DEONDE ESTA 
-                EL ARCHIVO (EJEM: cd Prgra) Y LUEGO USAR EL COMANDO rd 
-                (EJEM: rd <archivo>)
-            */
-                
-                
+
             case "rd":
                 if (parts.length == 1) {
                     print("Ingrese el nombre del archivo a leer");
+                    
                 } else {
                     print(cmd.leer(cmd.getPath() + "/" + parts[1]));
                 }
@@ -176,18 +171,18 @@ public class GUI extends JFrame {
                 break;
         }
         
-        window.append("\n" + cmd.getPath() + ">");
-        lastEditablePosition = window.getText().length(); 
         
+        window.append("\n" + cmd.getPath() + ">");
+        lastEditablePosition = window.getText().length();
     }
+    
 
     private void print(String msg) {
         window.append("\n" + msg);
     }
+
     
     
-
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             GUI frame = new GUI();
