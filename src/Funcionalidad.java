@@ -11,6 +11,11 @@ import java.io.*;
  * @author Jorge Aguirre
  */
 
+//MIEMBROS DEL GRUPO: 
+// JORGE LUIS AGUIRRE
+// ANDRU BERNAL REYES
+// JUNIOR MOISES NUÑEZ
+
 public class Funcionalidad {
 
     public File dirActual;

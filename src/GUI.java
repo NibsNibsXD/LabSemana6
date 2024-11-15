@@ -18,6 +18,11 @@ import java.time.LocalTime;
  */
 
 
+//MIEMBROS DEL GRUPO: 
+// JORGE LUIS AGUIRRE
+// ANDRU BERNAL REYES
+//JUNIOR MOISES NUÑEZ
+
 public class GUI extends JFrame {
     
 
