@@ -86,6 +86,27 @@ public class Funcionalidad {
         }
     }
     
+    public String eliminar(File file) {
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                if (f.isDirectory()) {
+                    vaciar(f);
+                    f.delete();
+                } else {
+                    f.delete();
+                }
+            }
+            file.delete();
+            return "Carpeta eliminada";
+        }
+        
+        if (file.isFile()) {
+            file.delete();
+            return "Archivo eliminado";
+        }
+        return "Error";
+    }
+    
         public String getPath() {
         try {
             return dirActual.getCanonicalPath();
