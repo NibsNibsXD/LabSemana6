@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.*;
@@ -17,17 +18,17 @@ import java.time.LocalTime;
  */
 
 
-public class CMDFrame extends JFrame {
-    private Funciones cmd = new Funciones("");
+public class GUI extends JFrame {
+    private Funcionalidad cmd = new Funcionalidad("");
     private JTextArea window = new JTextArea();
     private JScrollPane panel = new JScrollPane(window);
     private int lastEditablePosition;
     
-    public CMDFrame() {
+    public GUI() {
         crearFrame();
         window.setText("Microsoft Windows [Version 10.0.22621.521]" 
                 + "\n(c) Microsoft Corporation. All rights reserved." + "\n\n" 
-                + /*cmd.getPath()*/ ">");
+                + cmd.getPath() + ">");
         lastEditablePosition = window.getText().length(); 
     }
 
@@ -43,12 +44,10 @@ public class CMDFrame extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     e.consume();
-                    // pendiente manejo(); --------------------------------------------------------------------------------
-                    
+                    manejo();
                 } else if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE) &&
                         window.getCaretPosition() <= lastEditablePosition) {
                     e.consume();
-                    
                 } else if (window.getCaretPosition() < lastEditablePosition) {
                     window.setCaretPosition(lastEditablePosition); 
                 }
@@ -58,7 +57,6 @@ public class CMDFrame extends JFrame {
             public void keyTyped(KeyEvent e) {
                 if (window.getCaretPosition() < lastEditablePosition) {
                     e.consume(); 
-                    
                 }
             }
         });
@@ -66,17 +64,27 @@ public class CMDFrame extends JFrame {
         setTitle("Administrator: Command Prompt");
         setSize(700, 400);
         setLocationRelativeTo(null);
-        
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         panel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         getContentPane().add(panel, BorderLayout.CENTER);
     }
 
+    private void manejo() {
+        String text = window.getText();
+        int lastIndex = text.lastIndexOf("\n" + cmd.getPath() + ">");
+        if (lastIndex != -1) {
+            String command = text.substring(lastIndex + cmd.getPath().length() + 2).trim();
+            //Aqui llamaremos el case
+        }
+    }
     
+    
+    
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            CMDFrame frame = new CMDFrame();
+            GUI frame = new GUI();
             frame.setVisible(true);
         });
     }
