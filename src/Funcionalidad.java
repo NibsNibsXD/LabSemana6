@@ -115,5 +115,28 @@ public class Funcionalidad {
         }
     }
     
+    public String mfile(String path) {
+        
+        String msj = "";
+        File file = new File(path);
+        
+        if (file.exists()) {
+            
+            msj = "Error: Este archivo ya existe";
+            return msj;
+            
+        } else {
+            
+            msj = "Archivo creado existosamente";
+            try {
+                
+                file.createNewFile();
+            } catch (IOException e) {
+                
+                msj = "Error: no se pudo crear";
+            }
+            return msj;
+        }
+    }    
     
 }
