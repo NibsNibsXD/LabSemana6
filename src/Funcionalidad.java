@@ -137,6 +137,47 @@ public class Funcionalidad {
             }
             return msj;
         }
+    }
+
+    public static String leer(String path) {
+        File file = new File(path);
+        String msj = "";
+
+        if (file.exists()) {
+            if (file.isFile()) {
+                try {
+                    FileReader reader = new FileReader(file);
+                    String contenido = "";
+                    for (int i = reader.read(); i != -1; i = reader.read()) {
+                        contenido += (char) i;
+                    }
+                    return contenido;
+                } catch (IOException e) {
+                    msj = "Error: No se pudo leer";
+                    return msj;
+                }
+            } else {
+                msj = "Error: Debe seleccionar un archivo";
+                return msj;
+            }
+        } else {
+            msj = "Error: Archivo inexistente";
+            return msj;
+        }
+    }
+    
+    public static String listar(String path) {
+        String list = "";
+        File listFile = new File(path);
+        
+        if (listFile.isDirectory()) {
+            for (File file : listFile.listFiles()) {
+                list += "\n ->" + file.getName();
+            }
+            return list;
+        } else {
+            return "Error: Debe seleccionar un directorio";
+        }
     }    
     
 }
